@@ -13,7 +13,7 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
-        pg.key.set_repeat(500, 100)
+        pg.key.set_repeat(100, 100)
         self.load_data()
 
     def load_data(self):
@@ -22,8 +22,10 @@ class Game:
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
-        self.walls = pg.sprite.Group()
-        self.player = Player(self, 10, 10)
+        self.paddles = pg.sprite.Group()
+        self.left_paddle = Paddle(self, 1, 1)
+        self.right_paddle = Paddle(self, GRIDWIDTH - 2, 1)
+        self.ball = Ball(self, (GRIDWIDTH - 1)/2, (GRIDHEIGHT-1)/2)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -62,14 +64,16 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=1)
+                if event.key == pg.K_w:
+                    self.left_paddle.move(dy=-1)
+                if event.key == pg.K_s:
+                    self.left_paddle.move(dy=1)
                 if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
+                    self.right_paddle.move(dy=-1)
                 if event.key == pg.K_DOWN:
-                    self.player.move(dy=1)
+                    self.right_paddle.move(dy=1)
+                if event.key == pg.K_SPACE:
+                    self.ball.start_moving()
 
     def show_start_screen(self):
         pass
