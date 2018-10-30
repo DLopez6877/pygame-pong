@@ -1,4 +1,5 @@
 import pygame as pg
+import random
 from settings import *
 vec = pg.math.Vector2
 
@@ -33,8 +34,8 @@ class Ball(pg.sprite.Sprite):
         self.pos = vec(x, y) * TILESIZE
 
     def start_moving(self):
-        self.vel.x += INIT_BALL_SPEED
-        self.vel.y += INIT_BALL_SPEED
+        random_direction = random.choice([ (-1, -1), (-1 , 1), (1, -1), (1, 1)])
+        self.vel += vec(random_direction) * INIT_BALL_SPEED
 
     def collide_with_paddle(self):
         hit = pg.sprite.spritecollide(self, self.game.paddles, False)
